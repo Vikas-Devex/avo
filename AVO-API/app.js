@@ -1,0 +1,29 @@
+const express = require("express");
+const db = require("./src/DB/db");
+const userRoutes = require("./src/Routes/routes");
+const cors = require("cors");
+
+const app = express();
+const PORT = 8000;
+
+const cron = require("node-cron");
+
+// Middleware
+app.use(express.json()); // Allow JSON body parsing
+// app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
+// Test Route
+app.get("/", (req, res) => {
+  res.send("Welcome to Avo Backend!");
+});
+
+app.use("/Avo", userRoutes);
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
