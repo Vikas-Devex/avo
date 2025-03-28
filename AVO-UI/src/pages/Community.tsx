@@ -11,11 +11,11 @@ const Community = () => {
           data-aos-duration="1500"
         >
           <div className="container">
-            <a className="navbar-brand fw-bold" href="#">
+            <a className="navbar-brand fw-bold" href="/">
               <img
                 className="img-fluid"
                 style={{ maxWidth: "133px" }}
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="img"
               />
             </a>
@@ -121,7 +121,7 @@ const Community = () => {
             {/* Left Side: Image */}
             <div className="col-md-6 text-center mb-4 mb-md-0">
               <img
-                src="images/10.jpg"
+                src="/images/10.jpg"
                 alt="Descriptive Alt Text"
                 className="img-fluid rounded"
               />
@@ -163,8 +163,8 @@ const Community = () => {
           <div className="col-md-6">
             <div className="offer-img">
               <img
-                src="images/offer.jpg"
-                alt="Exclusive Deals Image"
+                src="/images/offer.jpg"
+                alt="Exclusive"
                 className="img-fluid"
               />
             </div>
@@ -243,8 +243,8 @@ const Community = () => {
           <div className="col-md-6 order-md-1">
             <div className="offer-img">
               <img
-                src="images/event.jpg"
-                alt="Exciting Events Image"
+                src="/images/event.jpg"
+                alt="Exciting"
                 className="img-fluid"
               />
             </div>
@@ -257,8 +257,8 @@ const Community = () => {
           <div className="col-md-6 order-2 order-md-0">
             <div className="offer-img">
               <img
-                src="images/perks.jpg"
-                alt="Member Perks Image"
+                src="/images/perks.jpg"
+                alt="Member"
                 className="img-fluid"
               />
             </div>
@@ -396,16 +396,16 @@ const Community = () => {
 
           {/* <!-- Social Media --> */}
           <div className="text-center mt-4">
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-facebook fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-twitter fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-instagram fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-linkedin fa-lg"></i>
             </a>
           </div>

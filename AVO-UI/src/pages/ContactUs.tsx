@@ -29,11 +29,11 @@ const ContactUs = () => {
           data-aos-duration="1500"
         >
           <div className="container">
-            <a className="navbar-brand fw-bold" href="#">
+            <a className="navbar-brand fw-bold" href="/">
               <img
                 className="img-fluid"
                 style={{ maxWidth: "133px" }}
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="img"
               />
             </a>
@@ -251,6 +251,7 @@ const ContactUs = () => {
               }}
             >
               <iframe
+                title="iframe-1"
                 src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d54895.639293760105!2d76.75029051151121!3d30.69091038510129!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sin!4v1741256236392!5m2!1sen!2sin"
                 width="100%"
                 height="700"
@@ -261,7 +262,7 @@ const ContactUs = () => {
               ></iframe>
               {/* <img
               className="img-fluid move-img"
-              src="images/banner-img.png"
+              src="/images/banner-img.png"
             ></img> */}
             </div>
           </div>
@@ -276,7 +277,7 @@ const ContactUs = () => {
               data-aos-easing="linear"
               data-aos-duration="1500"
             >
-              <img className="img-fluid" src="images/contact.png" alt="img" />
+              <img className="img-fluid" src="/images/contact.png" alt="img" />
             </div>
             <div className="col-md-6">
               <div
@@ -415,16 +416,16 @@ const ContactUs = () => {
 
           {/* <!-- Social Media --> */}
           <div className="text-center mt-4">
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-facebook fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-twitter fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-instagram fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-linkedin fa-lg"></i>
             </a>
           </div>

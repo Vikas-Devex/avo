@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
-import { Modal, Container, Navbar, Nav, Button, Form } from "react-bootstrap";
+import { Container, Navbar } from "react-bootstrap";
 import { FaBell } from "react-icons/fa";
-import Cookies from "js-cookie";
 import { getUserDetails } from "../../services/slices/auth/signUpSlice";
 import { AppDispatch, RootState } from "../../services/store/store";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,7 +12,7 @@ const Header = () => {
   );
   useEffect(() => {
     dispatch(getUserDetails());
-  }, []);
+  }, [dispatch]);
   return (
     <Navbar bg="light" expand="lg" className="shadow-sm px-3">
       <Container fluid>

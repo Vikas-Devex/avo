@@ -1,24 +1,10 @@
 import React, { useState } from "react";
-import {
-  FaSearch,
-  FaUsers,
-  FaChartLine,
-  FaGift,
-  FaCalendarAlt,
-  FaSignOutAlt,
-  FaBell,
-  FaUserCircle,
-} from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { LuPencilLine } from "react-icons/lu";
-import { Modal, Container, Navbar, Nav, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaEye } from "react-icons/fa";
 import Header from "../components/Header/header";
 import { useSelector } from "react-redux";
 import { RootState } from "../services/store/store";
 import UpdateProfileDetails from "../components/updateProfileDetails/updateProfileDetails";
-
+import QRCode from 'react-qr-code';
 
 const ProfileDashboard = () => {
   const [showProfileDetail, setShowProfileDetail] = useState(false);
@@ -45,6 +31,16 @@ const ProfileDashboard = () => {
                 <h4>{userDetails?.name}</h4>
                 <p>{userDetails?.role}</p>
                 <h6>{userDetails?.email}</h6>
+              </div>
+              <div className="mt-3 ms-auto">
+              {userDetails && (
+                    <QRCode
+                        value={`${window.location.origin}/dashboard/employee/${userDetails?.id}`}
+                        bgColor={"#FFFFFF"}
+                        fgColor={"#000000"}
+                        size={220}
+                    />
+                )}
               </div>
             </div>
           </div>

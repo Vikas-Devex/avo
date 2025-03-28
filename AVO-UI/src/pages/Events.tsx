@@ -25,11 +25,11 @@ const Events = () => {
           data-aos-duration="1500"
         >
           <div className="container">
-            <a className="navbar-brand fw-bold" href="#">
+            <a className="navbar-brand fw-bold" href="/">
               <img
                 className="img-fluid"
                 style={{ maxWidth: "133px" }}
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="img"
               />
             </a>
@@ -135,7 +135,7 @@ const Events = () => {
           >
             <img
               className="img-fluid rounded"
-              src="images/img1.jpg"
+              src="/images/img1.jpg"
               alt="img"
             />
             <h2 className="buy">Buy Ticket</h2>
@@ -171,7 +171,7 @@ const Events = () => {
               <div className="gallery-item">
                 <img
                   src={src.src}
-                  alt={`Gallery Image ${index + 1}`}
+                  alt={`img`}
                   className="img-fluid"
                 />
                 <div className="overlay">
@@ -279,16 +279,16 @@ const Events = () => {
 
           {/* <!-- Social Media --> */}
           <div className="text-center mt-4">
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-facebook fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-twitter fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-instagram fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-linkedin fa-lg"></i>
             </a>
           </div>

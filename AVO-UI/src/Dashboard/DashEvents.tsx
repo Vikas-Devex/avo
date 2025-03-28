@@ -1,19 +1,7 @@
-import React, { useState } from "react";
-import {
-  FaSearch,
-  FaUsers,
-  FaChartLine,
-  FaGift,
-  FaCalendarAlt,
-  FaSignOutAlt,
-  FaBell,
-  FaUserCircle,
-} from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { LuPencilLine } from "react-icons/lu";
-import { Modal, Container, Navbar, Nav, Button, Form } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaEye } from "react-icons/fa";
 import Header from "../components/Header/header";
 
 const CreateOffers = () => {
@@ -37,7 +25,7 @@ const CreateOffers = () => {
                   </div>
                   <div className="user-item">
                     <img
-                      src={`images/icon${index === 1 ? "(1)" : ""}.png`}
+                      src={`/images/icon${index === 1 ? "(1)" : ""}.png`}
                       alt="icon"
                     />
                   </div>
@@ -45,7 +33,7 @@ const CreateOffers = () => {
                 <p className="mt-3 fw-semibold text-muted">
                   <img
                     className="me-2"
-                    src="images/iconleft.png"
+                    src="/images/iconleft.png"
                     alt="icon left"
                   />
                   <span>8.5%</span> Up from yesterday

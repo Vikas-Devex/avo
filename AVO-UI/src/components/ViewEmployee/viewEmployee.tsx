@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal } from "react-bootstrap";
 import { FaEye } from "react-icons/fa";
 import ViewTransaction from "./viewTranction";
+
 const ViewEmployee = ({ show, handleClose, employeeItem, formatDateTime }) => {
   const [showTransaction, setShowTransaction] = useState(false);
   const [transactionData, setTransactionData] = useState([]);
@@ -18,7 +19,7 @@ const ViewEmployee = ({ show, handleClose, employeeItem, formatDateTime }) => {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body className="table-responsive">
-          <Modal.Title className="fw-normal fs-6">Employee Detail</Modal.Title>
+          <Modal.Title className="fw-normal fs-6 mt-4">Employee Detail</Modal.Title>
           <table className="table table-outer">
             <thead className="table-light table-header">
               <tr>

@@ -1,10 +1,4 @@
 import React from "react";
-import { Button } from "react-bootstrap";
-import { FaEye } from "react-icons/fa";
-import { LuPencilLine } from "react-icons/lu";
-import { MdDelete } from "react-icons/md";
-import { MdPublishedWithChanges } from "react-icons/md";
-import { MdOutlineUnpublished } from "react-icons/md";
 const RedeemedCoupons = ({
   handleShowOffer,
   redeemedOffersData,

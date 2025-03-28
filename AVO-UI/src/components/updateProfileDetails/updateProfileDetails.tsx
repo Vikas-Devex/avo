@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import { FaUpload } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +16,8 @@ interface ProfileFormData {
     profile_photo: string;
   }
 const UpdateProfileDetails = ({ showProfileDetail, setShowProfileDetail }) => {
+  const [file, setFile] = useState(null);
+  const [imgFile, setImgFile] = useState(null);
   const dispatch = useDispatch<AppDispatch>();
   const {
     register,
@@ -39,11 +41,17 @@ const UpdateProfileDetails = ({ showProfileDetail, setShowProfileDetail }) => {
     }
     dispatch(updateProfileDetails(payload));
     reset();
+    setImgFile(null);
     setShowProfileDetail(false);
     };
 
-    const handleFileUpload = (e: any) => {
-        const file = e.target.files[0];
+      const handleFileChange = (e: any) => {
+        const fileData = e.target.files[0];
+        setFile(fileData);
+        setImgFile(URL.createObjectURL(fileData));
+      };
+    
+      const handleFileUpload = () => {
         const formData: any = new FormData();
         formData.append("image", file);
         if (file) {
@@ -53,7 +61,13 @@ const UpdateProfileDetails = ({ showProfileDetail, setShowProfileDetail }) => {
               setValue("profile_photo", res.url, { shouldValidate: true });
             });
         }
-      };
+      }
+    
+      const handleDeleteImage = () => {
+        setImgFile(null);
+        setValue("profile_photo", "", { shouldValidate: true })
+      }
+    
 
     useEffect(() => {
         if (userDetails) {
@@ -187,6 +201,7 @@ const UpdateProfileDetails = ({ showProfileDetail, setShowProfileDetail }) => {
             </div>
 
             <div className="col-12 col-md-6">
+            {imgFile === null ? (
             <Form.Group className="mb-3">
             <Form.Label className="form-label">Upload Logo</Form.Label>
             <Controller
@@ -205,7 +220,7 @@ const UpdateProfileDetails = ({ showProfileDetail, setShowProfileDetail }) => {
                     id="uploadLogo"
                     accept="image/*"
                     onChange={(e) => {
-                      handleFileUpload(e);
+                      handleFileChange(e);
                       field.onChange(e);
                     }}
                   />
@@ -222,7 +237,30 @@ const UpdateProfileDetails = ({ showProfileDetail, setShowProfileDetail }) => {
             {errors.profile_photo && (
               <span className="text-danger">This field is required</span>
             )}
-          </Form.Group>
+            </Form.Group>
+          ) : (
+            <div className="w-100 mb-2 mt-3">
+              <div className="w-100 mb-2">
+                <img className="w-25 rounded-circle" src={imgFile} alt="preview img" />
+              </div>
+              <div className="w-100">
+                <Button
+                  className="w-10 me-2"
+                  variant="danger"
+                  onClick={() => handleDeleteImage()}
+                >
+                  Delete
+                </Button>
+                <Button
+                  className="w-10"
+                  variant="success"
+                  onClick={() => handleFileUpload()}
+                >
+                  Upload
+                </Button>
+              </div>
+            </div>
+          )}
             </div>
           </div>
           <Modal.Footer>

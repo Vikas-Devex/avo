@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Form, Modal } from "react-bootstrap";
-import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../services/store/store";
 import { publishUnpublishOffer } from "../../services/slices/business/businessSlice";
 

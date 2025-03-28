@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Row, Col, Form, Button, Card, InputGroup } from "react-bootstrap";
 import { FaEye, FaEyeSlash, FaUpload } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../services/store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../services/store/store";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import {
   signUpUser,
@@ -24,9 +24,10 @@ interface SignUpFormData {
 }
 
 const Register = () => {
+  const [file, setFile] = useState(null);
+  const [imgFile, setImgFile] = useState(null);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-  const loading = useSelector((state: RootState) => state.auth.loading);
   const {
     register,
     handleSubmit,
@@ -52,10 +53,16 @@ const Register = () => {
     dispatch(signUpUser({ payload: payload, navigate }))
       .unwrap()
       .then((res) => reset());
+    setImgFile(null);
   };
 
-  const handleFileUpload = (e: any) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: any) => {
+    const fileData = e.target.files[0];
+    setFile(fileData);
+    setImgFile(URL.createObjectURL(fileData));
+  };
+
+  const handleFileUpload = () => {
     const formData: any = new FormData();
     formData.append("image", file);
     if (file) {
@@ -65,6 +72,11 @@ const Register = () => {
           setValue("logo", res.url, { shouldValidate: true });
         });
     }
+  };
+
+  const handleDeleteImage = () => {
+    setImgFile(null);
+    setValue("logo", "", { shouldValidate: true });
   };
 
   return (
@@ -89,7 +101,7 @@ const Register = () => {
                   </p>
                   <img
                     className="w-75 mt-5"
-                    src="images/OBJECTS.png"
+                    src="/images/OBJECTS.png"
                     alt="img"
                   />
                   <div className="mt-auto">
@@ -240,44 +252,72 @@ const Register = () => {
                           </Form.Group>
                         </Col>
                         <Col md={6}>
-                          <Form.Group className="mb-3">
-                            <Form.Label>Upload Logo</Form.Label>
-                            <Controller
-                              name="logo"
-                              control={control}
-                              rules={{ required: false }}
-                              render={({ field }) => (
-                                <div
-                                  className={`d-flex align-items-center border p-2 rounded ${
-                                    errors.logo ? "border-danger" : ""
-                                  }`}
-                                >
-                                  <input
-                                    type="file"
-                                    className="d-none"
-                                    id="uploadLogo"
-                                    accept="image/*"
-                                    onChange={(e) => {
-                                      handleFileUpload(e);
-                                      field.onChange(e);
-                                    }}
-                                  />
-                                  <label
-                                    htmlFor="uploadLogo"
-                                    className="d-flex align-items-center cursor-pointer"
+                          {imgFile === null ? (
+                            <Form.Group className="mb-3">
+                              <Form.Label>Upload Logo</Form.Label>
+                              <Controller
+                                name="logo"
+                                control={control}
+                                rules={{ required: false }}
+                                render={({ field }) => (
+                                  <div
+                                    className={`d-flex align-items-center border p-2 rounded ${
+                                      errors.logo ? "border-danger" : ""
+                                    }`}
                                   >
-                                    <FaUpload className="me-2" />
-                                    <span>Upload logo</span>
-                                  </label>
-                                </div>
+                                    <input
+                                      type="file"
+                                      className="d-none"
+                                      id="uploadLogo"
+                                      accept="image/*"
+                                      onChange={(e) => {
+                                        handleFileChange(e);
+                                        field.onChange(e);
+                                      }}
+                                    />
+                                    <label
+                                      htmlFor="uploadLogo"
+                                      className="d-flex align-items-center cursor-pointer"
+                                    >
+                                      <FaUpload className="me-2" />
+                                      <span>Upload logo</span>
+                                    </label>
+                                  </div>
+                                )}
+                              />
+                              {errors.logo && (
+                                <span className="text-danger">
+                                  This field is required
+                                </span>
                               )}
-                            />
-                            {errors.logo && (
-                              <span className="text-danger">
-                                This field is required
-                              </span>
-                            )}
-                          </Form.Group>
+                            </Form.Group>
+                          ) : (
+                            <div className="w-100 mb-2 mt-3">
+                              <div className="d-flex w-100 mb-2">
+                                <img
+                                  className="w-25 rounded-circle"
+                                  src={imgFile}
+                                  alt="preview img"
+                                />
+                                <div className="d-flex w-50 m-auto">
+                                  <Button
+                                    className="w-10 upload-div-btn me-2"
+                                    variant="danger"
+                                    onClick={() => handleDeleteImage()}
+                                  >
+                                    Delete
+                                  </Button>
+                                  <Button
+                                    className="w-10 upload-div-btn"
+                                    variant="success"
+                                    onClick={() => handleFileUpload()}
+                                  >
+                                    Upload
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          )}
                         </Col>
                       </Row>
                       <Row>

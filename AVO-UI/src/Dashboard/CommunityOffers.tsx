@@ -1,15 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../components/Header/header";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../services/store/store";
 import { getCommunityPublishedOffers, redeemPublishedOffer } from "../services/slices/business/businessSlice";
+import DashboardSection from "../components/dashboardSection/dashboardSection";
 const CommunityOffers = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { publishedOffersData }:any = useSelector((state: RootState) => state.business);
   useEffect(()=>{
     dispatch(getCommunityPublishedOffers({limit:10, page:1}))
-  }, []);
+  }, [dispatch]);
 
 
   const redeemOffer = (item: any) => {
@@ -26,34 +27,8 @@ const CommunityOffers = () => {
     <div className="main-outer pt-3 vh-100  ">
       <div className="container">
         <Header />
-        <h3 className="py-4  fw-semibold">Dashboard</h3>
-        <div className="d-flex flex-wrap gap-3">
-          {[1, 2].map((_, index) => (
-            <div
-              key={index}
-              className="bg-white p-3 rounded flex-grow-1"
-              style={{ minWidth: "280px" }}
-            >
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  <h6 className="mb-3">Active deals</h6>
-                  <h3 className="fw-bold">40,689</h3>
-                </div>
-                <div className="user-item">
-                  <img
-                    src={`images/icon${index === 1 ? "(1)" : ""}.png`}
-                    alt="img"
-                  />
-                </div>
-              </div>
-              <p className="mt-3 fw-semibold text-muted">
-                <img className="me-2" src="images/iconleft.png" alt="" />
-                <span>8.5%</span> Up from yesterday
-              </p>
-            </div>
-          ))}
-        </div>
-
+        <h3 className="py-4  fw-semibold">Community Offer</h3>
+        <DashboardSection />
         <div className="offers  mt-3 ">
           <h3 className="fw-semibold text-[35px] mb-3">
             Offer listing for community

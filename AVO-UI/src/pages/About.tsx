@@ -17,11 +17,11 @@ const About = () => {
           data-aos-duration="1500"
         >
           <div className="container">
-            <a className="navbar-brand fw-bold" href="#">
+            <a className="navbar-brand fw-bold" href="/">
               <img
                 className="img-fluid"
                 style={{ maxWidth: "133px" }}
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="img"
               />
             </a>
@@ -168,7 +168,7 @@ const About = () => {
               data-aos="fade-left"
               data-aos-duration="3000"
             >
-              <img className="img-fluid" src="images/about.png" alt="img" />
+              <img className="img-fluid" src="/images/about.png" alt="img" />
             </div>
           </div>
         </div>
@@ -217,7 +217,7 @@ const About = () => {
               <img
                 className=""
                 style={{ width: "80%" }}
-                src="images/mission.png"
+                src="/images/mission.png"
                 alt="Mission"
               />
             </div>
@@ -297,7 +297,7 @@ const About = () => {
               data-aos="fade-left"
               data-aos-duration="3000"
             >
-              <img className="img-fluid" src="images/vission2.png" alt="img" />
+              <img className="img-fluid" src="/images/vission2.png" alt="img" />
             </div>
           </div>
         </div>
@@ -400,16 +400,16 @@ const About = () => {
 
           {/* <!-- Social Media --> */}
           <div className="text-center mt-4">
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-facebook fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-twitter fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-instagram fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-linkedin fa-lg"></i>
             </a>
           </div>

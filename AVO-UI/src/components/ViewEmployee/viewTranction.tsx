@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "react-bootstrap";
-import { FaEye } from "react-icons/fa";
 const ViewTransaction = ({
   showTransaction,
   setShowTransaction,
@@ -16,15 +15,32 @@ const ViewTransaction = ({
         <Modal.Title className="fw-normal fs-6">Usage history</Modal.Title>
       </Modal.Header>
       <Modal.Body className="table-responsive">
-        {transactionData?.length ?
-          transactionData?.map((item: any, index: number) => {
-            return (
-              <p className="fw-medium" style={{ fontSize: "14px" }}>
-                {formatDateTime("2025-03-24T12:05:14.000Z")}
-              </p>
-            );
-          }) : 
-          <p className="fw-semibold">No records found!</p>}
+      <div className="table-responsive">
+          <table className="table table-outer">
+            <thead className="table-light table-header">
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactionData?.length ?
+                transactionData?.map((item: any, index: number) => {
+                  return (
+                    <tr key={index}>
+                      <td className="fw-medium" style={{ fontSize: "14px" }}>
+                        {formatDateTime(item)?.split("-")?.[0]}
+                      </td>
+                      <td className="fw-medium" style={{ fontSize: "14px" }}>
+                      {formatDateTime(item)?.split("-")?.[1]}
+                      </td>
+                    </tr>
+                  );
+                }) : 
+                <p className="fw-semibold">No records found!</p>}
+            </tbody>
+          </table>
+        </div>
       </Modal.Body>
     </Modal>
   );

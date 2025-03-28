@@ -1,31 +1,35 @@
-import logo from "./logo.svg";
+import React, {useEffect} from "react";
 import "./App.css";
-import Home from "./pages/Home.tsx";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import About from "./pages/About.tsx";
-import HowItsWork from "./pages/HowItsWork.tsx";
-import ContactUs from "./pages/ContactUs.tsx";
-import Events from "./pages/Events.tsx";
-import Register from "./pages/Register.tsx";
-import SignInAccount from "./pages/SignIn";
-import Dashbaord from "./pages/Dashbaord.tsx";
-import OtpScreen from "./pages/OtpScreen.tsx";
-import ForgotPwd from "./pages/ForgetPwd.tsx";
-import Profile from "./pages/Profile.tsx";
-import Bussiness from "./pages/Bussiness.tsx";
-import Community from "./pages/Community.tsx";
-import DashboardLayout from "./Layouts/DashboardLayout.tsx";
+import { useSelector } from "react-redux";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ProfileDashboard from "./Dashboard/ProfileDashboard.tsx";
-import CreateOffers from "./Dashboard/DashEvents.tsx";
-import CommunityOffers from "./Dashboard/CommunityOffers.tsx";
-import Signout from "./Dashboard/Signout.tsx";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import ResetPwd from "./pages/ResetPwd.tsx";
-import RouteGuard from "./services/routeGuard/routeGuard";
-import CreateBusiness from "./pages/CreateBusiness";
+
+// Lazy-load components
+const Home = React.lazy(() => import("./pages/Home"));
+const About = React.lazy(() => import("./pages/About"));
+const HowItsWork = React.lazy(() => import("./pages/HowItsWork"));
+const ContactUs = React.lazy(() => import("./pages/ContactUs"));
+const Events = React.lazy(() => import("./pages/Events"));
+const Register = React.lazy(() => import("./pages/Register"));
+const SignInAccount = React.lazy(() => import("./pages/SignIn"));
+const Dashbaord = React.lazy(() => import("./pages/Dashbaord"));
+const OtpScreen = React.lazy(() => import("./pages/OtpScreen"));
+const ForgotPwd = React.lazy(() => import("./pages/ForgetPwd"));
+const Profile = React.lazy(() => import("./pages/Profile"));
+const Bussiness = React.lazy(() => import("./pages/Bussiness"));
+const Community = React.lazy(() => import("./pages/Community"));
+const DashboardLayout = React.lazy(() => import("./Layouts/DashboardLayout"));
+const ProfileDashboard = React.lazy(() => import("./Dashboard/ProfileDashboard"));
+const CreateOffers = React.lazy(() => import("./Dashboard/DashEvents"));
+const CommunityOffers = React.lazy(() => import("./Dashboard/CommunityOffers"));
+const Signout = React.lazy(() => import("./Dashboard/Signout"));
+const ResetPwd = React.lazy(() => import("./pages/ResetPwd"));
+const RouteGuard = React.lazy(() => import("./services/routeGuard/routeGuard"));
+const CreateBusiness = React.lazy(() => import("./pages/CreateBusiness"));
+const ViewValidEmployee = React.lazy(() => import("./pages/viewValidEmployee"));
+const Loader = React.lazy(() => import("./services/loader/loader"))
+
 const App = () => {
   AOS.init();
   useEffect(() => {
@@ -38,10 +42,12 @@ const App = () => {
     });
   }, []);
 
+  const loading = useSelector((state) => state?.activity?.loading);
   return (
     <Router>
+      <React.Suspense fallback={loading ? <Loader /> : <Loader />}>
       <Routes>
-        //Homa page routes
+        {/* Homa page routes */}
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/how-it-works" element={<HowItsWork />} />
@@ -55,18 +61,20 @@ const App = () => {
         <Route path="/otp" element={<OtpScreen />} />
         <Route path="/forgot-password" element={<ForgotPwd />} />
         <Route path="/reset-password" element={<ResetPwd />} />
-        //Dashboard routes
+        {/* Dashboard routes */}
         <Route path="/dashboard" element={<RouteGuard />}>
           <Route element={<DashboardLayout />}>
-            <Route index element={<Dashbaord />} />
-            <Route path="CommunityOffers" element={<CommunityOffers />} />
-            <Route path="profile" element={<ProfileDashboard />} />
-            <Route path="create-offers" element={<CreateOffers />} />
-            <Route path="create-business" element={<CreateBusiness />} />
-            <Route path="signout" element={<Signout />} />
+          <Route index element={<Dashbaord />} />
+          <Route path="CommunityOffers" element={<CommunityOffers />} />
+          <Route path="profile" element={<ProfileDashboard />} />
+          <Route path="create-offers" element={<CreateOffers />} />
+          <Route path="create-business" element={<CreateBusiness />} />
+          <Route path="employee/:id" element={<ViewValidEmployee />} />
+          <Route path="signout" element={<Signout />} />
           </Route>
         </Route>
       </Routes>
+      </React.Suspense>
     </Router>
   );
 };

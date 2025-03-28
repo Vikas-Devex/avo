@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-
-import { FaBell } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { LuPencilLine } from "react-icons/lu";
-import { Modal, Button, Form } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { FaEye } from "react-icons/fa";
 import Header from "../components/Header/header";
 import AddEmployee from "../components/AddEmployee/addEmployee";
 import {
@@ -25,6 +19,7 @@ import OfferComponent from "../components/OfferComponent/offerComponent";
 import EmployeComponent from "../components/EmployeComponent/employeComponent";
 import PublishUnpublish from "../components/PublishUnpublish/publishUnpublish";
 import RedeemedCoupons from "../components/redeemedCoupons/redeemedCoupons";
+import DashboardSection from "../components/dashboardSection/dashboardSection";
 
 const Dashboard = () => {
   const [show, setShow] = useState(false);
@@ -106,7 +101,7 @@ const Dashboard = () => {
       dispatch(getAllOffers(userDetails?.business_id));
       dispatch(getRedeemedCoupons({user_id: userDetails?.id}));
     }
-  }, [userDetails?.business_id]);
+  }, [userDetails?.id, userDetails?.business_id, dispatch]);
 
   const handleEditEmployee = (item: any, type: string) => {
     setEmployeeItem(item);
@@ -156,36 +151,7 @@ const Dashboard = () => {
         <div className="container">
           <Header />
           <h3 className="py-4  fw-semibold">Dashboard</h3>
-          <div className="d-flex flex-wrap gap-3  justify-content-md-start mob-break">
-            {[1, 2].map((_, index) => (
-              <div
-                key={index}
-                className="bg-white p-3 rounded flex-grow-1"
-                style={{ minWidth: "280px", maxWidth: "400px" }}
-              >
-                <div className="d-flex justify-content-between align-items-center">
-                  <div>
-                    <h6 className="mb-3">Active deals</h6>
-                    <h3 className="fw-bold">40,689</h3>
-                  </div>
-                  <div className="user-item">
-                    <img
-                      src={`images/icon${index === 1 ? "(1)" : ""}.png`}
-                      alt="icon"
-                    />
-                  </div>
-                </div>
-                <p className="mt-3 fw-semibold text-muted">
-                  <img
-                    className="me-2"
-                    src="images/iconleft.png"
-                    alt="icon left"
-                  />
-                  <span>8.5%</span> Up from yesterday
-                </p>
-              </div>
-            ))}
-          </div>
+          <DashboardSection />
         </div>
         {userDetails?.role==="business_admin" ? 
         <EmployeComponent
@@ -248,7 +214,7 @@ const Dashboard = () => {
           dataItem={offerItem}
         />
 
-        {modalType == "view-employee" && (
+        {modalType === "view-employee" && (
           <ViewEmployee
             show={show}
             handleClose={handleClose}
@@ -257,7 +223,7 @@ const Dashboard = () => {
           />
         )}
 
-        {modalType == "view-offer" && (
+        {modalType === "view-offer" && (
           <ViewOffer
             show={show}
             handleClose={handleClose}
@@ -266,7 +232,7 @@ const Dashboard = () => {
           />
         )}
 
-        {modalType == "publish-unpublish" && (
+        {modalType === "publish-unpublish" && (
           <PublishUnpublish
             show={show}
             handleClose={handleClose}

@@ -6,13 +6,13 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  var settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 2,
-  };
+  // var settings = {
+  //   dots: true,
+  //   infinite: true,
+  //   speed: 500,
+  //   slidesToShow: 1,
+  //   slidesToScroll: 2,
+  // };
   return (
     <div>
       <div className="haeder mb-5 overflow-hidden">
@@ -22,11 +22,11 @@ const Home = () => {
           data-aos-duration="1500"
         >
           <div className="container">
-            <a className="navbar-brand fw-bold" href="#">
+            <a className="navbar-brand fw-bold" href="/">
               <img
                 className="img-fluid"
                 style={{ maxWidth: "133px" }}
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="img"
               />
             </a>
@@ -141,7 +141,7 @@ const Home = () => {
 
                 <img
                   className="img-fluid d-none mob"
-                  src="images/banner-img.png"
+                  src="/images/banner-img.png"
                   alt="img"
                 />
               </div>
@@ -150,7 +150,7 @@ const Home = () => {
               <div className="">
                 <img
                   className="img-fluid  mob-view"
-                  src="images/banner-img.png"
+                  src="/images/banner-img.png"
                   alt="Banner"
                 />
               </div>
@@ -230,8 +230,8 @@ const Home = () => {
         <h2 className="fw-bold text-dark features text-center get mb-5">
           Benefits Of AVO
         </h2>
-        <img className="dooler" src="images/doler.png" alt="img" />
-        <img className="img-fluid" src="images/new-img.png" alt="img" />
+        <img className="dooler" src="/images/doler.png" alt="img" />
+        <img className="img-fluid" src="/images/new-img.png" alt="img" />
       </section>
       {/* <!-- Testimonials --> */}
       <div className="container" data-aos="fade-up" data-aos-duration="3000">
@@ -278,7 +278,7 @@ const Home = () => {
           >
             <div>
               <div className="box1">
-                <img className="img-fluid" src="images/img1.jpg" alt="img" />
+                <img className="img-fluid" src="/images/img1.jpg" alt="img" />
                 <h1 className="text-slider">Lorem Ipsum</h1>
                 <p>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -290,7 +290,7 @@ const Home = () => {
             </div>
             <div>
               <div className="box1">
-                <img className="img-fluid" src="images/img1.jpg" alt="img" />
+                <img className="img-fluid" src="/images/img1.jpg" alt="img" />
                 <h1 className="text-slider">Lorem Ipsum</h1>
                 <p>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -302,7 +302,7 @@ const Home = () => {
             </div>
             <div className="">
               <div className="box1">
-                <img className="img-fluid" src="images/img1.jpg" alt="img" />
+                <img className="img-fluid" src="/images/img1.jpg" alt="img" />
                 <h1 className="text-slider">Lorem Ipsum</h1>
                 <p>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -314,7 +314,7 @@ const Home = () => {
             </div>
             <div className="">
               <div className="box1">
-                <img className="img-fluid" src="images/img1.jpg" alt="img" />
+                <img className="img-fluid" src="/images/img1.jpg" alt="img" />
                 <h1 className="text-slider">Lorem Ipsum</h1>
                 <p>
                   Lorem ipsum dolor sit, amet consectetur adipisicing elit.
@@ -553,16 +553,16 @@ const Home = () => {
 
           {/* <!-- Social Media --> */}
           <div className="text-center mt-4">
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-facebook fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-twitter fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-instagram fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-linkedin fa-lg"></i>
             </a>
           </div>

@@ -15,9 +15,10 @@ export const createBusiness = createAsyncThunk<
   "business/createBusiness",
   async ({ payload, navigate }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/register-business", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         toast.success(" Business created successfully!");
         Cookies.set(
           "user_data",
@@ -31,13 +32,13 @@ export const createBusiness = createAsyncThunk<
         return response.data;
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Create business failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during craete business");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -48,21 +49,22 @@ export const getAllEmployees = createAsyncThunk<any>(
   "business/getAllEmployees",
   async (business_id, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.get(
         `Avo/employee-history`
       );
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         return response.data;
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Get all offers failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during get all offers");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -73,21 +75,22 @@ export const getAllOffers = createAsyncThunk<any>(
   "business/getAllOffers",
   async (business_id, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.get(
         `Avo/business-offer-list?business_id=${business_id}`
       );
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         return response.data;
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Create employee failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during get all offers");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -101,9 +104,10 @@ export const createEmployee = createAsyncThunk<
   "business/createEmployee",
   async ({ payload, business_id }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/add-employee", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         if (response.data.status === 200) {
           toast.success(" Employee created successfully!");
           dispatch(getAllEmployees(business_id));
@@ -113,13 +117,13 @@ export const createEmployee = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Create employee failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during create employee");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -133,10 +137,11 @@ export const updateEmployee = createAsyncThunk<
   "business/createEmployee",
   async ({ payload, business_id }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.put("Avo/update-employee", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
           toast.success(" Employee updated successfully!");
           dispatch(getAllEmployees(business_id));
           return response.data;
@@ -145,13 +150,13 @@ export const updateEmployee = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Create employee failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during create employee");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -165,12 +170,13 @@ export const deleteEmployee = createAsyncThunk<
   "business/deleteEmployee",
   async ({ employee_id, business_id }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.delete(
         `Avo/delete-employees/?employee_id=${employee_id}`
       );
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
           toast.success(" Employee deleted successfully!");
           dispatch(getAllEmployees(business_id));
           return response.data;
@@ -179,13 +185,13 @@ export const deleteEmployee = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Delete employee failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during delete employee");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -199,10 +205,11 @@ export const createOffer = createAsyncThunk<
   "business/createOffer",
   async ({ payload, business_id }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/create-offer", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
           toast.success("Offer created successfully!");
           dispatch(getAllOffers(business_id));
           return response.data;
@@ -211,13 +218,13 @@ export const createOffer = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Create offer failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during create offer");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -231,9 +238,10 @@ export const deleteOffer = createAsyncThunk<
   "business/deleteOffer",
   async ({ offer_id, business_id }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.delete(`Avo/delete-offer/?id=${offer_id}`);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         if (response.data.status === 200) {
           toast.success("Offer deleted successfully!");
           dispatch(getAllOffers(business_id));
@@ -243,13 +251,13 @@ export const deleteOffer = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Delete offer failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during delete offer");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -263,10 +271,11 @@ export const publishUnpublishOffer = createAsyncThunk<
   "business/publishUnpublishOffer",
   async ({ payload, offer_id, business_id }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post(`Avo/publish-offer?id=${offer_id}`, payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
           toast.success("Offer updated successfully!");
           dispatch(getAllOffers(business_id));
           return response.data;
@@ -275,13 +284,13 @@ export const publishUnpublishOffer = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Publish unpublish offer failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during publish unpublish offer");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -295,9 +304,10 @@ export const getCommunityPublishedOffers = createAsyncThunk<
   "business/getCommunityPublishedOffers",
   async ({ limit, page }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.get(`Avo/publish-offer-list?limit=${limit}&page=${page}`);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         if (response.data.status === 200) {
           return response.data;
         } else {
@@ -305,13 +315,13 @@ export const getCommunityPublishedOffers = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Get offers failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during get offers");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -325,10 +335,11 @@ export const redeemPublishedOffer = createAsyncThunk<
   "business/redeemPublishedOffer",
   async ({ payload }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/redeem-coupon", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
           toast.success("Coupon redeemed successfully!");
           return response.data;
         } else {
@@ -336,13 +347,13 @@ export const redeemPublishedOffer = createAsyncThunk<
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Add redeem coupon failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during add redeem coupon");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -356,29 +367,133 @@ export const getRedeemedCoupons = createAsyncThunk<
   "business/getRedeemedCoupons",
   async ({ user_id }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.get(`Avo/redeemed-coupons?user_id=${user_id}`);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
           return response.data;
         } else {
           toast.error(response.data.data.message);
         }
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Get coupon failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during get coupon");
     } finally {
       dispatch(stopLoadingActivity());
     }
   }
 );
 
+export const getValidUserById = createAsyncThunk<
+  any,
+  { user_id: number }
+>(
+  "business/getEmployeeById",
+  async ({ user_id }, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(startLoadingActivity());
+      const response = await api.get(
+        `Avo/user-details-byId/?id=${user_id}`
+      );
+      if (response.status === 200) {
+        dispatch(stopLoadingActivity());
+        if (response.data.status === 200) {
+          toast.success("Valid user!");
+          return response.data;
+        } else {
+          toast.error(response?.data?.data?.message);
+        }
+      } else {
+        toast.error("Something went wrong!");
+        return rejectWithValue("Get employee failed");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue("An error occurred during get employee");
+    } finally {
+      dispatch(stopLoadingActivity());
+    }
+  }
+);
+
+export const getAllRedeemedCoupons = createAsyncThunk<
+  any,
+  { user_id: number }
+>(
+  "business/getAllRedeemedCoupons",
+  async ({ user_id }, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(startLoadingActivity());
+      const response = await api.get(
+        `Avo/valid-coupons/?user_id=${user_id}`
+      );
+      if (response.status === 200) {
+        if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
+          toast.success("coupons fetched successfully!");
+          return response.data;
+        } else {
+          toast.error(response?.data?.data?.message);
+        }
+      } else {
+        toast.error("Something went wrong!");
+        return rejectWithValue("Get all coupons failed");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue("An error occurred during get all coupons");
+    } finally {
+      dispatch(stopLoadingActivity());
+    }
+  }
+);
+
+export const redeemOfferByAdmin = createAsyncThunk<
+  any,
+  { payload: {offer_id: number, user_id: number}; navigate: (path: string) => void }
+>(
+  "business/redeemOfferByAdmin",
+  async ({ payload, navigate }, { dispatch, rejectWithValue }) => {
+    try {
+      dispatch(startLoadingActivity());
+      const response = await api.post(
+        "Avo/use-coupon", payload
+      );
+      if (response.status === 200) {
+        if (response.data.status === 200) {
+          dispatch(stopLoadingActivity());
+          toast.success("coupons redeemed successfully!");
+          navigate("/dashboard");
+          getAllRedeemedCoupons({user_id: payload?.user_id})
+          return response.data;
+        } else {
+          toast.error(response?.data?.data?.message);
+        }
+      } else {
+        toast.error("Something went wrong!");
+        return rejectWithValue("coupon redeem failed!");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400) {
+        return rejectWithValue(error.response.data.message);
+      }
+      return rejectWithValue("An error occurred during redeem coupon");
+    } finally {
+      dispatch(stopLoadingActivity());
+    }
+  }
+);
 
 const initialState = {
   loading: false,
@@ -387,7 +502,9 @@ const initialState = {
   employeesData: [],
   offersData: [],
   publishedOffersData: [],
-  redeemedCouponsData: []
+  redeemedCouponsData: [],
+  validUserDetail: {},
+  userCoupons: []
 };
 
 const businessSlice = createSlice({
@@ -447,6 +564,28 @@ const businessSlice = createSlice({
         state.redeemedCouponsData = action.payload.data;
       })
       .addCase(getRedeemedCoupons.rejected, (state, action) => {
+        state.loading = false;
+      })
+
+      .addCase(getValidUserById.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getValidUserById.fulfilled, (state, action) => {
+        state.loading = false;
+        state.validUserDetail = action?.payload?.data;
+      })
+      .addCase(getValidUserById.rejected, (state, action) => {
+        state.loading = false;
+      })
+
+      .addCase(getAllRedeemedCoupons.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getAllRedeemedCoupons.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userCoupons = action?.payload?.data;
+      })
+      .addCase(getAllRedeemedCoupons.rejected, (state, action) => {
         state.loading = false;
       });
   },

@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signInUser } from "../services/slices/auth/signUpSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../services/store/store";
@@ -14,6 +14,8 @@ interface SignInFormData {
 const SignIn = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
   const {
     register,
     handleSubmit,
@@ -21,7 +23,7 @@ const SignIn = () => {
   } = useForm<SignInFormData>();
 
   const onSubmit: SubmitHandler<SignInFormData> = async (data) => {
-    dispatch(signInUser({ payload: data, navigate }));
+    dispatch(signInUser({ payload: data, from, navigate }));
   };
   return (
     <div className="account">
@@ -159,8 +161,8 @@ const SignIn = () => {
                 </Button>
               </Form>
               <p className="text-muted mt-3 text-center">
-                By continuing, you agree to the <a href="#">Terms of use</a> and
-                <a href="#"> Privacy Policy</a>.
+                By continuing, you agree to the <a href="/">Terms of use</a> and
+                <a href="/"> Privacy Policy</a>.
               </p>
             </Col>
           </Row>

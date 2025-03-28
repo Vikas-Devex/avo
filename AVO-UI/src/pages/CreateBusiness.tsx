@@ -4,13 +4,10 @@ import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../services/store/store";
 import {
-  forgotPassword,
   uploadLogoImage,
 } from "../services/slices/auth/signUpSlice";
-import toast from "react-hot-toast";
 import { FaUpload } from "react-icons/fa";
 import Header from "../components/Header/header";
-import Cookies from "js-cookie";
 import { createBusiness } from "../services/slices/business/businessSlice";
 import { useNavigate } from "react-router-dom";
 interface BusinessFormData {
@@ -102,7 +99,7 @@ const CreateBusiness = () => {
                   <Controller
                     name="logo"
                     control={control}
-                    rules={{ required: "Logo upload is required" }}
+                    rules={{ required: false }}
                     render={({ field }) => (
                       <div
                         className={`d-flex align-items-center border p-2 rounded ${

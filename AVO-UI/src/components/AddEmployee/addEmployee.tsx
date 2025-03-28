@@ -3,7 +3,6 @@ import { Modal, Button, Form, InputGroup } from "react-bootstrap";
 import { Controller, useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../services/store/store";
-import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash, FaUpload } from "react-icons/fa";
 import { uploadLogoImage } from "../../services/slices/auth/signUpSlice";
 import {
@@ -26,8 +25,9 @@ const AddEmployee = ({
   employeeItem,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [file, setFile] = useState(null);
+  const [imgFile, setImgFile] = useState(null);
   const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -52,11 +52,17 @@ const AddEmployee = ({
       );
     }
     handleCloseEmployee();
+    setImgFile(null);
     reset();
   };
 
-  const handleFileUpload = (e: any) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: any) => {
+    const fileData = e.target.files[0];
+    setFile(fileData);
+    setImgFile(URL.createObjectURL(fileData));
+  };
+
+  const handleFileUpload = () => {
     const formData: any = new FormData();
     formData.append("image", file);
     if (file) {
@@ -66,7 +72,12 @@ const AddEmployee = ({
           setValue("profile_photo", res.url, { shouldValidate: true });
         });
     }
-  };
+  }
+
+  const handleDeleteImage = () => {
+    setImgFile(null);
+    setValue("profile_photo", "", { shouldValidate: true })
+  }
 
   useEffect(() => {
     if (modalType === "edit" && employeeItem) {
@@ -78,9 +89,15 @@ const AddEmployee = ({
         profile_photo: employeeItem.profile_photo || "",
       });
     } else {
-      reset();
+      reset({
+        name: "",
+        email: "",
+        number: null,
+        address: "",
+        profile_photo: "",
+      });
     }
-  }, [modalType, employeeItem, reset]);
+  }, [showEmployee, modalType, employeeItem, reset]);
 
   return (
     <Modal
@@ -90,7 +107,7 @@ const AddEmployee = ({
       style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
     >
       <Modal.Header closeButton>
-        <Modal.Title> Create Employee</Modal.Title>
+        <Modal.Title> {modalType === "edit" ? "Update" : "Create"}  Employee</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -177,43 +194,66 @@ const AddEmployee = ({
               This field is required
             </Form.Control.Feedback>
           </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label className="d-flex fw-normal">Upload Logo</Form.Label>
-            <Controller
-              name="profile_photo"
-              control={control}
-              rules={{ required: false }}
-              render={({ field }) => (
-                <div
-                  className={`d-flex align-items-center border p-2 rounded ${
-                    errors.profile_photo ? "border-danger" : ""
-                  }`}
-                >
-                  <input
-                    type="file"
-                    className="d-none"
-                    id="uploadLogo"
-                    accept="image/*"
-                    onChange={(e) => {
-                      handleFileUpload(e);
-                      field.onChange(e);
-                    }}
-                  />
-                  <label
-                    htmlFor="uploadLogo"
-                    className="d-flex align-items-center cursor-pointer"
+          {imgFile === null ? (
+            <Form.Group className="mb-3">
+              <Form.Label className="d-flex fw-normal">Upload Logo</Form.Label>
+              <Controller
+                name="profile_photo"
+                control={control}
+                rules={{ required: false }}
+                render={({ field }) => (
+                  <div
+                    className={`d-flex align-items-center border p-2 rounded ${
+                      errors.profile_photo ? "border-danger" : ""
+                    }`}
                   >
-                    <FaUpload className="me-2" />
-                    <span>Upload logo</span>
-                  </label>
-                </div>
+                    <input
+                      type="file"
+                      className="d-none"
+                      id="uploadLogo"
+                      accept="image/*"
+                      onChange={(e) => {
+                        handleFileChange(e);
+                        field.onChange(e);
+                      }}
+                    />
+                    <label
+                      htmlFor="uploadLogo"
+                      className="d-flex align-items-center cursor-pointer"
+                    >
+                      <FaUpload className="me-2" />
+                      <span>Upload logo</span>
+                    </label>
+                  </div>
+                )}
+              />
+              {errors.profile_photo && (
+                <span className="text-danger">This field is required</span>
               )}
-            />
-            {errors.profile_photo && (
-              <span className="text-danger">This field is required</span>
-            )}
-          </Form.Group>
+            </Form.Group>
+          ) : (
+            <div className="w-100 mb-2 mt-3">
+              <div className="w-100 mb-2">
+                <img className="w-25 rounded-circle" src={imgFile} alt="preview img" />
+              </div>
+              <div className="w-100">
+                <Button
+                  className="w-10 me-2"
+                  variant="danger"
+                  onClick={() => handleDeleteImage()}
+                >
+                  Delete
+                </Button>
+                <Button
+                  className="w-10"
+                  variant="success"
+                  onClick={() => handleFileUpload()}
+                >
+                  Upload
+                </Button>
+              </div>
+            </div>
+          )}
           <Modal.Footer>
             <Button variant="secondary" onClick={handleCloseEmployee}>
               Cancel

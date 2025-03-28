@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import { useForm, Controller } from "react-hook-form";
 import Cookies from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../services/store/store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../services/store/store";
 import {
   resendOtpUser,
   verifyAccount,

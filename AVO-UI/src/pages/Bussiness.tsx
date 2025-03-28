@@ -23,7 +23,7 @@ const Bussiness = () => {
               <img
                 className="img-fluid"
                 style={{ maxWidth: "133px" }}
-                src="images/logo.png"
+                src="/images/logo.png"
                 alt="Logo"
               />
             </Link>
@@ -267,7 +267,7 @@ const Bussiness = () => {
           <div className="card mx-auto text-center shadow-sm p-4">
             <div className="d-flex justify-content-center align-items-center card-img">
               <img
-                src="images/PROFILE.jpg"
+                src="/images/PROFILE.jpg"
                 className="rounded-circle"
                 width="80"
                 height="80"
@@ -290,7 +290,7 @@ const Bussiness = () => {
           <div className="card mx-auto text-center shadow-sm p-4">
             <div className="d-flex justify-content-center align-items-center card-img">
               <img
-                src="images/PROFILE.jpg"
+                src="/images/PROFILE.jpg"
                 className="rounded-circle"
                 width="80"
                 height="80"
@@ -313,7 +313,7 @@ const Bussiness = () => {
           <div className="card mx-auto text-center shadow-sm p-4">
             <div className="d-flex justify-content-center align-items-center card-img">
               <img
-                src="images/PROFILE.jpg"
+                src="/images/PROFILE.jpg"
                 className="rounded-circle"
                 width="80"
                 height="80"
@@ -336,7 +336,7 @@ const Bussiness = () => {
           <div className="card mx-auto text-center shadow-sm p-4">
             <div className="d-flex justify-content-center align-items-center card-img">
               <img
-                src="images/PROFILE.jpg"
+                src="/images/PROFILE.jpg"
                 className="rounded-circle"
                 width="80"
                 height="80"
@@ -359,7 +359,7 @@ const Bussiness = () => {
           <div className="card mx-auto text-center shadow-sm p-4">
             <div className="d-flex justify-content-center align-items-center card-img">
               <img
-                src="images/PROFILE.jpg"
+                src="/images/PROFILE.jpg"
                 className="rounded-circle"
                 width="80"
                 height="80"
@@ -382,7 +382,7 @@ const Bussiness = () => {
           <div className="card mx-auto text-center shadow-sm p-4">
             <div className="d-flex justify-content-center align-items-center card-img">
               <img
-                src="images/PROFILE.jpg"
+                src="/images/PROFILE.jpg"
                 className="rounded-circle"
                 width="80"
                 height="80"
@@ -499,16 +499,16 @@ const Bussiness = () => {
 
           {/* <!-- Social Media --> */}
           <div className="text-center mt-4">
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-facebook fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-twitter fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-instagram fa-lg"></i>
             </a>
-            <a href="#" className="me-3 text-light">
+            <a href="/" className="me-3 text-light">
               <i className="fab fa-linkedin fa-lg"></i>
             </a>
           </div>

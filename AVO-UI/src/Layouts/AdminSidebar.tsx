@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { HiBars3CenterLeft } from "react-icons/hi2";
 import "./sideBarStyles.css";
 import React from "react";
 import { NavLink } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 import { RootState } from "../services/store/store";
@@ -25,23 +24,6 @@ const dashboardTabs = [
     path: "profile",
     icon: "fa-solid fa-chart-gantt text-graytext",
   },
-  // {
-  //   label: "Create Offers",
-  //   path: "create-offers",
-  //   icon: "fa-solid fa-chart-line text-graytext",
-  // },
-  // {
-  //   label: "User Management",
-  //   path: "user-management",
-  //   icon: "fa-regular fa-user text-graytext",
-  // },
-
-  // {
-  //   label: "Settings",
-  //   path: "settings",
-  //   icon: "fa-solid fa-gear text-graytext",
-  // },
-
   {
     label: "Create Business",
     path: "create-business",
@@ -92,7 +74,7 @@ export const AdminSideBar = (props: {
         </button>
         <img
           className="img-fluid profile"
-          src="../images/logo.png"
+          src="/images/logo.png"
           alt="Profile"
           style={{
             maxWidth: "100%",

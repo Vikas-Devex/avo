@@ -10,14 +10,10 @@ export const stopLoadingActivity: any = createAsyncThunk(
   async () => {}
 );
 
-export const startTrainingActivity = createAsyncThunk(
-  "activity/startLoadingActivity",
-  async () => {}
-);
 export const activitySlice = createSlice({
   name: "activity",
   initialState: {
-    loading: true,
+    loading: false,
   },
   reducers: {},
 

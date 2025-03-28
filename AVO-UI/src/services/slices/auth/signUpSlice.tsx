@@ -15,9 +15,10 @@ export const signUpUser = createAsyncThunk<
   "auth/signUpUser",
   async ({ payload, navigate }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/SignUp", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         Cookies.set("user_email", payload.email, { expires: 7 }); // Save for 7 days
         toast.success("OTP sended to email for verify account!");
         navigate("/otp");
@@ -40,13 +41,14 @@ export const uploadLogoImage = createAsyncThunk<any>(
   "auth/uploadLogoImage",
   async (payload, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/upload-image", payload, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         toast.success("Logo uploaded successfully!");
         return response.data;
       } else {
@@ -56,7 +58,7 @@ export const uploadLogoImage = createAsyncThunk<any>(
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during upload logo");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -70,20 +72,21 @@ export const verifyAccount = createAsyncThunk<
   "auth/verifyAccount",
   async ({ payload, navigate }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/verify-otp", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         toast.success("Account verified successfully!");
         navigate("/login");
         return response.data;
       } else {
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Account verification failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during verify account");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -94,19 +97,20 @@ export const resendOtpUser = createAsyncThunk<any>(
   "auth/resendOtpUser",
   async (payload, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/resend-otp", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         toast.success("OTP resend successfully!");
+        dispatch(stopLoadingActivity());
         return response.data;
       } else {
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("resend otp failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during resend otp");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -115,29 +119,34 @@ export const resendOtpUser = createAsyncThunk<any>(
 
 export const signInUser = createAsyncThunk<
   any,
-  { payload: any; navigate: (path: string) => void }
+  { payload: any; from: string; navigate: (path: string, options?: any) => void }
 >(
   "auth/signInUser",
-  async ({ payload, navigate }, { dispatch, rejectWithValue }) => {
+  async ({ payload, from, navigate }, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/signin", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         Cookies.set("user_data", JSON.stringify(response?.data?.data?.user), {
           expires: 30,
         });
         toast.success("User logged in successfully!");
-        navigate("/dashboard");
+        if(from !== "/"){
+          navigate(from, { replace: true });
+        }else{
+          navigate("/dashboard");
+        }
         return response.data;
       } else {
         toast.error("Something went wrong!");
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("SingIn failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during signIn");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -148,18 +157,19 @@ export const forgotPassword = createAsyncThunk<any>(
   "auth/forgotPassword",
   async (payload, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/forgot-password", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         return response.data;
       } else {
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Forgot password failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during forgot password");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -170,18 +180,19 @@ export const resetPassword = createAsyncThunk<any>(
   "auth/resetPassword",
   async (payload, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.post("Avo/reset-password", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
+        dispatch(stopLoadingActivity());
         return response.data;
       } else {
-        return rejectWithValue("Upload logo failed");
+        return rejectWithValue("Reset password failed");
       }
     } catch (error) {
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during reset password");
     } finally {
       dispatch(stopLoadingActivity());
     }
@@ -206,10 +217,11 @@ export const updateProfileDetails = createAsyncThunk<any>(
   "auth/updateProfileDetails",
   async (payload, { dispatch, rejectWithValue }) => {
     try {
+      dispatch(startLoadingActivity());
       const response = await api.put("Avo/update-profile", payload);
       if (response.status === 200) {
-        dispatch(startLoadingActivity());
         dispatch(getUserDetails())
+        dispatch(stopLoadingActivity());
         toast.success("Profile updated successfully!");
         return response.data;
       } else {
@@ -219,7 +231,7 @@ export const updateProfileDetails = createAsyncThunk<any>(
       if (error.response && error.response.status === 400) {
         return rejectWithValue(error.response.data.message);
       }
-      return rejectWithValue("An error occurred during signup");
+      return rejectWithValue("An error occurred during update profile");
     } finally {
       dispatch(stopLoadingActivity());
     }

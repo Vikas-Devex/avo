@@ -1,29 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaBell, FaUserCircle } from "react-icons/fa";
 import { Container, Navbar } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Profile = () => {
-  // ✅ Fix: useState must be inside a functional component
-  const [show, setShow] = useState(false);
-  const [modalType, setModalType] = useState(""); // "edit" or "delete"
-
-  const handleShow = (type) => {
-    setModalType(type);
-    setShow(true);
-  };
-
-  const handleClose = () => {
-    setShow(false);
-    setModalType(""); // Reset modal type
-  };
   return (
     <div className="d-flex vh-100">
       {/* Sidebar */}
 
       {/* Main Content */}
       <div className="flex-grow-1">
-        <h1>hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii</h1>
         {/* Top Navbar */}
         <Navbar bg="light" expand="lg" className="shadow-sm px-3">
           <Container fluid>
@@ -68,7 +54,7 @@ const Profile = () => {
             <div className="d-flex align-items-center gap-3">
               <img
                 className="img-fluid"
-                src="images/girl.png"
+                src="/images/girl.png"
                 alt="Profile"
                 style={{
                   maxWidth: "41px",
@@ -578,7 +564,7 @@ const Profile = () => {
             <div className="">
               <img
                 className="shadow-lg p-4 rounded-circle"
-                src="images/girl.png"
+                src="/images/girl.png"
                 alt="img"
               />
             </div>
