@@ -67,8 +67,7 @@ const RedeemCoupon = async (req, res) => {
 
 const UseCoupon = async (req, res) => {
   try {
-    const user_id = req.user.id;
-    const { offer_id } = req.body;
+    const { offer_id, user_id } = req.body;
 
     if (!offer_id) {
       return res.json({
@@ -293,10 +292,50 @@ const GetBusinessEmployeesWithCoupons = async (req, res) => {
   }
 };
 
+const getValidCouponsForUser = async (req, res) => {
+  try {
+    const business_admin_id = req.user.id;
+    const { user_id } = req.query;
+
+    if (!user_id || !business_admin_id) {
+     return res.json({
+        status: 400,
+        data: { message: "User ID and Business Admin ID are required." },
+     });
+    }
+
+    const redeemedCoupons = await query(
+     `SELECT o.id, o.title, o.description, o.image, o.discount_percentage,
+             o.price, o.start_date, o.end_date, o.is_published, rc.redeemed_at
+     FROM offers o
+     JOIN businesses b ON o.business_id = b.id
+     JOIN redeemed_coupons rc ON o.id = rc.offer_id
+     WHERE b.owner_id = ?
+     AND rc.user_id = ?`,
+     [business_admin_id, user_id]
+    );
+
+    return res.json({
+     status: 200,
+     data:
+        redeemedCoupons.length > 0
+         ? redeemedCoupons
+         : { message: "No redeemed coupons found." },
+    });
+} catch (error) {
+    console.error("❌ Error fetching redeemed coupons:", error);
+    return res.json({
+     status: 500,
+     data: { message: "Internal Server Error", error: error.message },
+    });
+}
+};
+
 module.exports = {
   RedeemCoupon,
   UseCoupon,
   GetRedeemedCouponsWithUsage,
   GetCouponUsageDetails,
   GetBusinessEmployeesWithCoupons,
+  getValidCouponsForUser,
 };

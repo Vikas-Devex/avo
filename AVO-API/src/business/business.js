@@ -3,7 +3,7 @@ const util = require("util");
 const bcrypt = require("bcryptjs");
 const { isValidEmail } = require("../Utils/Common");
 const jwt = require("jsonwebtoken");
-
+require("dotenv").config();
 const query = util.promisify(db.query).bind(db);
 
 // Register Business API
@@ -87,7 +87,7 @@ const RegisterOrUpdateBusiness = async (req, res) => {
       // ✅ Generate new auth token with updated role
       const newAuthToken = jwt.sign(
         { id: user_id, role: "business_admin", business_id: newBusinessId },
-        "SECRET_KEY",
+        process.env.SECRET_KEY,
         { expiresIn: "7d" }
       );
 
@@ -356,8 +356,7 @@ const UpdateEmployee = async (req, res) => {
         number = ?, 
         address = ?, 
         profile_photo = ?, 
-        password = ?, 
-        updated_at = CURRENT_TIMESTAMP
+        password = ?,
       WHERE id = ?
     `;
 
@@ -526,6 +525,124 @@ const GetUserById = async (req, res) => {
   }
 };
 
+const GetUserByIdReq = async (req, res) => {
+  try {
+    const employee_id = req.query.id;
+
+    // ❌ Check if ID is missing or empty
+    if (!employee_id) {
+      return res.json({
+        status: 400,
+        data: { message: "Invalid request. ID is required." },
+      });
+    }
+
+    // ✅ Fetch user details
+    const employee = await query(
+      "SELECT id, name, email, number,role, address, profile_photo, business_id FROM users WHERE id = ?",
+      [employee_id]
+    );
+
+    // ✅ Check if user exists
+    if (!employee) {
+      return res.json({
+        status: 404,
+        data: { message: "User not found." },
+      });
+    }
+
+    return res.json({
+      status: 200,
+      data: employee[0],
+    });
+  } catch (error) {
+    console.error("❌ Error:", error);
+    return res.json({
+      status: 500,
+      data: { message: "Internal Server Error", error: error.message },
+    });
+  }
+};
+
+const getCouponUsageForBusinessAdmin = async (req, res) => {
+  try {
+    const user_id = req.user.id;
+
+    if (!user_id) {
+      return res.json({
+        status: 400,
+        data: { message: "User ID is required." },
+      });
+    }
+
+    // Pagination parameters (default: page 1, limit 10)
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const offset = (page - 1) * limit;
+
+    // Step 1: Get all businesses owned by this user
+    const businesses = await query(
+      `SELECT id FROM businesses WHERE owner_id = ?`,
+      [user_id]
+    );
+
+    if (businesses.length === 0) {
+      return res.json({
+        status: 200,
+        data: { message: "No businesses found for this user." },
+      });
+    }
+
+    // Extract business IDs
+    const businessIds = businesses.map((b) => b.id);
+
+    // Step 2: Fetch total count of coupon usage for pagination
+    const totalCountResult = await query(
+      `SELECT COUNT(*) AS total FROM coupon_usage WHERE business_id IN (?)`,
+      [businessIds]
+    );
+    const totalRecords = totalCountResult[0]?.total || 0;
+    const totalPages = Math.ceil(totalRecords / limit);
+
+    // Step 3: Fetch paginated coupon usage for these businesses
+    const couponUsageData = await query(
+      `SELECT u.name AS username, 
+              b.name AS business_name,
+              o.title AS coupon_used, 
+              cu.used_at AS usage_date
+       FROM coupon_usage cu
+       JOIN users u ON cu.user_id = u.id
+       JOIN offers o ON cu.offer_id = o.id
+       JOIN businesses b ON cu.business_id = b.id
+       WHERE cu.business_id IN (?)
+       ORDER BY cu.used_at DESC
+       LIMIT ? OFFSET ?`,
+      [businessIds, limit, offset]
+    );
+
+    return res.json({
+      status: 200,
+      data: {
+        total_records: totalRecords,
+        total_pages: totalPages,
+        current_page: page,
+        per_page: limit,
+        results: couponUsageData.length > 0 ? couponUsageData : [],
+        message:
+          couponUsageData.length === 0
+            ? "No coupon usage found for your businesses."
+            : null,
+      },
+    });
+  } catch (error) {
+    console.error("❌ Error fetching coupon usage:", error);
+    return res.json({
+      status: 500,
+      data: { message: "Internal Server Error", error: error.message },
+    });
+  }
+};
+
 module.exports = {
   AddEmployee,
   DeleteEmployee,
@@ -534,4 +651,6 @@ module.exports = {
   GetEmployeesByBusiness,
   GetUserById,
   GetBusinessByUserId,
+  GetUserByIdReq,
+  getCouponUsageForBusinessAdmin,
 };

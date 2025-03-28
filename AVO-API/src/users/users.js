@@ -2,6 +2,7 @@ const db = require("../DB/db");
 const util = require("util");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 const {
   isValidEmail,
   sendOTP,
@@ -9,8 +10,6 @@ const {
   sendResetEmail,
 } = require("../Utils/Common");
 const query = util.promisify(db.query).bind(db);
-
-const SECRET_KEY = "Hello_World";
 
 const SignUp = async (req, res) => {
   try {
@@ -231,7 +230,7 @@ const SignIn = async (req, res) => {
     // Generate JWT token
     const authToken = jwt.sign(
       { id: user[0].id, role: user[0].role },
-      "SECRET_KEY",
+      process.env.SECRET_KEY,
       {
         expiresIn: "1d",
       }
@@ -281,7 +280,7 @@ const ForgotPasswordLink = async (req, res) => {
     }
 
     // Generate JWT reset token (expires in 15 minutes)
-    const resetToken = jwt.sign({ id: user[0].id }, "SECRET_KEY", {
+    const resetToken = jwt.sign({ id: user[0].id }, process.env.SECRET_KEY, {
       expiresIn: "15m",
     });
 
@@ -333,7 +332,7 @@ const ResetPasswordLink = async (req, res) => {
     // Verify the JWT token
     let decoded;
     try {
-      decoded = jwt.verify(token, "SECRET_KEY");
+      decoded = jwt.verify(token, process.env.SECRET_KEY);
     } catch (err) {
       return res.json({
         status: 400,

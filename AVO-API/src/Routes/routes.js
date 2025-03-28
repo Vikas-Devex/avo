@@ -20,6 +20,8 @@ const {
   GetEmployeesByBusiness,
   GetUserById,
   GetBusinessByUserId,
+  GetUserByIdReq,
+  getCouponUsageForBusinessAdmin,
 } = require("../business/business");
 const { authenticate, isBusinessAdmin } = require("../Authentication/auth");
 const {
@@ -41,6 +43,7 @@ const {
   GetRedeemedCouponsWithUsage,
   GetCouponUsageDetails,
   GetBusinessEmployeesWithCoupons,
+  getValidCouponsForUser,
 } = require("../coupon/coupon");
 const router = express.Router();
 
@@ -64,6 +67,19 @@ router.put("/update-profile", authenticate, UpdateUserProfile);
 
 //get user details
 router.get("/user-details", authenticate, GetUserById);
+router.get("/user-details-byId", authenticate, isBusinessAdmin, GetUserByIdReq);
+router.get(
+  "/valid-coupons",
+  authenticate,
+  isBusinessAdmin,
+  getValidCouponsForUser
+);
+router.get(
+  "/coupon-usage-business",
+  authenticate,
+  isBusinessAdmin,
+  getCouponUsageForBusinessAdmin
+);
 router.get(
   "/business-details",
   authenticate,
@@ -108,7 +124,7 @@ router.get(
 
 //coupons related apis
 router.post("/redeem-coupon", authenticate, RedeemCoupon);
-router.post("/use-coupon", authenticate, UseCoupon);
+router.post("/use-coupon", authenticate, isBusinessAdmin, UseCoupon);
 router.get("/redeemed-coupons", authenticate, GetRedeemedCouponsWithUsage);
 router.get("/coupon-usage", authenticate, GetCouponUsageDetails);
 
